@@ -7,3 +7,5 @@
 # Iniciar Backend: npm run server
 
 # Iniciar Frontend: npm run dev
+
+# Iniciar Admin: npm run dev
