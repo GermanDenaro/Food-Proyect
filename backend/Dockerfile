@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install --production
 
 # Si bcrypt está ya instalado localmente, elimina sus binarios para forzar la recompilación en el contenedor
-RUN npm rebuild bcrypt --build-from-source
+# RUN npm rebuild bcrypt --build-from-source
 
 # Copiar el resto de la aplicación al contenedor
 COPY . .
