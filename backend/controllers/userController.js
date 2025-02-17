@@ -12,7 +12,7 @@ const loginUser = async (req, res) => {
         const user = await userModel.findOne({email})
 
         if (!user) {
-            res.json({success:false, message:"User does not exist."})
+          return res.json({success:false, message:"User does not exist."})
         }
 
         const isMatch = await bcryptjs.compare(password, user.password)
@@ -38,12 +38,6 @@ const crateToken = (id) => {
 const registerUser = async (req, res) => {
     const {name, password, email} = req.body;
     try {
-        // checking if user already exist
-        const exists = await userModel.findOne({email});
-        if (exists) {
-            return res.json({success:false, message:"User already exists."})
-        }
-
         // validating email and strong pass
         if (!validator.isEmail(email)) {
             return res.json({success:false, message:"Please enter a valid email."})
@@ -51,8 +45,16 @@ const registerUser = async (req, res) => {
         }
 
         if (password.length<8) {
-            return res.json({success:false, messagge:"Password must contain 8 characters or."})
+            return res.json({success:false, message:"Password must contain 8 characters or more."})
         }
+
+        // checking if user already exist
+        const exists = await userModel.findOne({email});
+        if (exists) {
+            return res.json({success:false, message:"User already exists."})
+        }
+
+
 
         // hashing password
         const salt = await bcryptjs.genSalt(10)
